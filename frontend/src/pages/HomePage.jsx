@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import NoteCard from '../components/NoteCard';
 
 export const HomePage = () => {
-  const [isRateLimited, setIsRateLimited] = useState(true);
+  const [isRateLimited, setIsRateLimited] = useState(false);
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
 
