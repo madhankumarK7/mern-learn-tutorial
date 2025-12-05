@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-if(process.env.NODE_ENV === 'production') {
+if(process.env.NODE_ENV !== 'production') {
   app.use(cors({
     origin: 'http://localhost:5173',
   })); 
@@ -22,6 +22,14 @@ app.use(rateLimiter);
 const PORT = process.env.PORT || 5001;
 
 app.use('/api/notes', notesRoutes);
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+  // Handle all routes by sending index.html
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../frontend/dist", "index.html"));
+  });
+}
 
 connectDB().then(() => {
   app.listen(PORT, () => {
